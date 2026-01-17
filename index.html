@@ -3,118 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNC Rechner | Takacs + Partner AG</title>
+    <title>CNC Pro-Rechner | Takacs + Partner AG</title>
     <style>
         :root {
-            --primary: #e74c3c; /* Kräftiges Rot aus dem Logo */
-            --dark: #2c3e50; /* Dunkelgrau/Schwarz */
-            --light: #ecf0f1;
-            --white: #ffffff;
-            --accent-black: #000000; /* Reines Schwarz für den Header */
+            --primary: #ff4757;
+            --primary-hover: #ff6b81;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: #1e293b;
+            --accent: #2ed573;
         }
 
+        /* Sanfte Hintergrund-Animation */
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f0f2f5; 
+            font-family: 'Inter', sans-serif; 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            background-attachment: fixed;
+            color: var(--text-main);
             margin: 0; 
             padding: 20px;
-            display: flex;
-            justify-content: center;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; /* Zentriert den Inhalt vertikal */
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Schwebende Lichteffekte im Hintergrund */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 20%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: -1;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 50px); }
         }
 
         .container {
-            background: var(--white);
-            width: 100%;
-            max-width: 500px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            width: 100%; 
+            max-width: 480px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
             overflow: hidden;
-            border-top: 10px solid var(--primary);
+            /* Sanftes Erscheinen des Rechners */
+            animation: fadeInScale 0.8s ease-out forwards;
+            margin: 40px 0; /* Abstand nach oben und unten */
         }
 
-        .header {
-            background: var(--accent-black);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            position: relative;
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .logo-text {
-            text-align: right;
+        .header { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .logo-text h1 { margin: 0; font-size: 0.8rem; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; }
+        .logo-text h2 { margin: 0; font-size: 1.3rem; font-weight: 700; }
+
+        .info-btn {
+            background: var(--primary); color: white; border: none; border-radius: 50%;
+            width: 35px; height: 35px; cursor: pointer; font-weight: bold; transition: 0.3s;
         }
+        .info-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--primary-hover); }
 
-        .logo-text h1 { margin: 0; font-size: 1.8rem; color: var(--primary); letter-spacing: 2px; }
-        .logo-text h2 { margin: 5px 0 0; font-size: 1rem; font-weight: 300; }
-        .logo-text h3 { margin: 5px 0 0; font-size: 0.9rem; font-weight: normal; color: var(--light); }
-        .header p { margin: 15px 0 0; font-size: 0.8rem; opacity: 0.8; }
-
-        .content { padding: 25px; }
-        .form-group { margin-bottom: 18px; position: relative; } 
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-            color: var(--dark);
-            font-size: 0.9rem;
-        }
-
+        .content { padding: 30px; }
+        .form-group { margin-bottom: 20px; transition: 0.3s; }
+        .form-group:hover { transform: translateX(5px); }
+        
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
+        
         input, select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
+            width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; color: white; font-size: 1rem; box-sizing: border-box; transition: 0.3s;
         }
+        input:focus { outline: none; border-color: var(--primary); background: #242f44; }
 
-        input:focus, select:focus { border-color: var(--primary); outline: none; }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
+        .calc-btn {
+            width: 100%; padding: 16px; background: var(--primary); color: white; border: none;
+            border-radius: 14px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
         }
+        .calc-btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4); }
 
-        button:hover { background-color: #c0392b; }
-
-        .results {
-            margin-top: 25px;
-            background: var(--light);
-            border-radius: 10px;
-            padding: 20px;
-            display: none;
+        .results { 
+            margin-top: 25px; 
+            display: none; 
+            background: rgba(46, 213, 115, 0.1); 
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 1px solid rgba(46, 213, 115, 0.2);
+            animation: slideIn 0.5s ease-out;
         }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .res-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #bdc3c7;
+        .res-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .res-val { font-weight: 800; color: var(--accent); font-size: 1.2rem; }
+
+        /* TUTORIAL MODAL */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95); overflow-y: auto; backdrop-filter: blur(10px);
         }
-
-        .res-item:last-child { border-bottom: none; }
-
-        .res-val {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--primary);
+        .modal-content {
+            background: var(--input-bg); margin: 5% auto; padding: 30px; border-radius: 20px;
+            width: 90%; max-width: 500px; border: 1px solid rgba(255,255,255,0.1);
+            animation: modalPop 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.27);
         }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        .unit { font-size: 0.8rem; color: #7f8c8d; margin-left: 5px; }
-
-        small { color: #7f8c8d; font-size: 0.8rem; }
+        .step { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .step h3 { color: var(--primary); margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .step-num { background: var(--primary); color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; }
+        .step p { font-size: 0.9rem; line-height: 1.5; color: var(--text-muted); }
+        
+        .illustration { background: #0f172a; border-radius: 12px; padding: 20px; margin: 15px 0; text-align: center; }
+        .close-tutorial { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .close-tutorial:hover { background: rgba(255,255,255,0.2); }
     </style>
 </head>
 <body>
@@ -122,76 +141,103 @@
 <div class="container">
     <div class="header">
         <div class="logo-text">
-            <h1>SCHREINEREI</h1>
-            <h2>TAKACS + PARTNER AG</h2>
-            <h3>CNC Schnittdatenrechner</h3>
-            <p>KÜCHE, BAD, HOLZBAU.</p>
+            <h1>TAKACS + PARTNER</h1>
+            <h2>CNC-Rechner</h2>
         </div>
+        <button class="info-btn" onclick="toggleModal()">?</button>
     </div>
 
     <div class="content">
-        <!-- Vc-Feld entfernt -->
-
         <div class="form-group">
-            <label>Werkzeug-Durchmesser (mm)</label>
+            <label>Material</label>
+            <select id="vc-select">
+                <option value="2500">Holzwerkstoffe (Vc 2500)</option>
+                <option value="3000">Weichholz (Vc 3000)</option>
+                <option value="2000">Hartholz (Vc 2000)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Werkzeug-Ø (mm)</label>
             <input type="number" id="diameter" value="250">
         </div>
-
         <div class="form-group">
-            <label>Anzahl Zähne (Z)</label>
+            <label>Zähnezahl (Z)</label>
             <input type="number" id="teeth" value="48">
         </div>
-
         <div class="form-group">
-            <label>Vorschub pro Zahn (fz mm)</label>
+            <label>Vorschub pro Zahn (fz)</label>
             <input type="number" id="fz" step="0.01" value="0.05">
-            <small>Definiert die "Abreibung" oder Spanabnahme pro Zahn.</small>
         </div>
-
-        <button onclick="calculate()">WERTE BERECHNEN</button>
+        <button class="calc-btn" onclick="calculate()">Berechnen</button>
 
         <div class="results" id="output">
-            <div class="res-item">
-                <span>Standard Vc:</span>
-                <div><span id="res-vc" class="res-val">2500</span><span class="unit">m/min</span></div>
-            </div>
-            <div class="res-item">
-                <span>Drehzahl (n):</span>
-                <div><span id="res-n" class="res-val">0</span><span class="unit">U/min</span></div>
-            </div>
-            <div class="res-item">
-                <span>Vorschub (Vf):</span>
-                <div><span id="res-vf" class="res-val">0</span><span class="unit">m/min</span></div>
-            </div>
+            <div class="res-item"><span>Drehzahl (n):</span><span id="res-n" class="res-val">0</span></div>
+            <div class="res-item"><span>Vorschub (Vf):</span><span id="res-vf" class="res-val">0</span></div>
         </div>
     </div>
 </div>
 
+<!-- TUTORIAL MODAL -->
+<div id="infoModal" class="modal">
+    <div class="modal-content">
+        <h2 style="text-align:center; margin-bottom:30px;">Anleitung & Hilfe</h2>
+
+        <div class="step">
+            <h3><span class="step-num">1</span> Werkzeug-Durchmesser</h3>
+            <p>Gib den Durchmesser deines Fräsers oder Sägeblatts an. Dies beeinflusst die benötigte Drehzahl.</p>
+            <div class="illustration">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" stroke="#94a3b8" stroke-width="2" fill="none" />
+                    <line x1="10" y1="50" x2="90" y2="50" stroke="#ff4757" stroke-width="3" stroke-dasharray="4" />
+                    <text x="50" y="45" fill="#ff4757" font-size="10" text-anchor="middle">Ø (mm)</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-num">2</span> Zähnezahl (Z)</h3>
+            <p>Die Anzahl der schneidenden Kanten am Werkzeug.</p>
+            <div class="illustration">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="30" fill="#1e293b" />
+                    <path d="M50 10 L60 30 L40 30 Z" fill="#ff4757" transform="rotate(0 50 50)"/>
+                    <path d="M50 10 L60 30 L40 30 Z" fill="#ff4757" transform="rotate(120 50 50)"/>
+                    <path d="M50 10 L60 30 L40 30 Z" fill="#ff4757" transform="rotate(240 50 50)"/>
+                </svg>
+            </div>
+        </div>
+
+        <button class="close-tutorial" onclick="toggleModal()">Verstanden</button>
+    </div>
+</div>
+
 <script>
+    function toggleModal() {
+        const m = document.getElementById('infoModal');
+        m.style.display = m.style.display === "block" ? "none" : "block";
+    }
+
     function calculate() {
-        // Fester Standardwert für Vc (Schnittgeschwindigkeit)
-        const vc = 2500; // Standardwert für Hartholz/MDF in m/min
-        
+        const vc = parseFloat(document.getElementById('vc-select').value);
         const d = parseFloat(document.getElementById('diameter').value);
         const z = parseFloat(document.getElementById('teeth').value);
         const fz = parseFloat(document.getElementById('fz').value);
 
         if (d > 0 && z > 0 && fz > 0) {
-            // Formel: n = (vc * 1000) / (d * PI)
             const n = (vc * 1000) / (d * Math.PI);
-            
-            // Formel Vorschub: Vf = n * z * fz / 1000 (in m/min)
             const vf = (n * z * fz) / 1000;
 
-            document.getElementById('res-vc').innerText = vc;
-            document.getElementById('res-n').innerText = Math.round(n);
-            document.getElementById('res-vf').innerText = vf.toFixed(2);
+            document.getElementById('res-n').innerText = Math.round(n).toLocaleString() + " U/min";
+            document.getElementById('res-vf').innerText = vf.toFixed(2) + " m/min";
             document.getElementById('output').style.display = 'block';
-            
-            window.scrollTo(0, document.body.scrollHeight);
         } else {
-            alert("Bitte alle Felder ausfüllen!");
+            alert("Bitte füllen Sie alle Felder korrekt aus.");
         }
+    }
+
+    // Schließen wenn man außerhalb klickt
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('infoModal')) toggleModal();
     }
 </script>
 
